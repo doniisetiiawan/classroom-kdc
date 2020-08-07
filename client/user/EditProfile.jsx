@@ -8,6 +8,8 @@ import TextField from '@material-ui/core/TextField';
 import Icon from '@material-ui/core/Icon';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import { read, update } from './api-user';
 import auth from '../auth/auth-helper';
 
@@ -16,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 600,
     margin: 'auto',
     textAlign: 'center',
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(12),
     paddingBottom: theme.spacing(2),
   },
   title: {
@@ -67,6 +69,7 @@ function EditProfile({ match }) {
           ...values,
           name: data.name,
           email: data.email,
+          educator: data.educator,
         });
       }
     });
@@ -80,6 +83,7 @@ function EditProfile({ match }) {
       name: values.name || undefined,
       email: values.email || undefined,
       password: values.password || undefined,
+      educator: values.educator,
     };
     update(
       {
@@ -93,10 +97,12 @@ function EditProfile({ match }) {
       if (data && data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        setValues({
-          ...values,
-          userId: data._id,
-          redirectToProfile: true,
+        auth.updateUser(data, () => {
+          setValues({
+            ...values,
+            userId: data._id,
+            redirectToProfile: true,
+          });
         });
       }
     });
@@ -104,6 +110,10 @@ function EditProfile({ match }) {
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
+  };
+
+  const handleCheck = (event, checked) => {
+    setValues({ ...values, educator: checked });
   };
 
   if (values.redirectToProfile) {
@@ -143,6 +153,27 @@ function EditProfile({ match }) {
           value={values.password}
           onChange={handleChange('password')}
           margin="normal"
+        />
+        <br />
+        <br />
+        <Typography
+          variant="subtitle1"
+          className={classes.subheading}
+        >
+          I am an Educator
+        </Typography>
+        <FormControlLabel
+          control={(
+            <Switch
+              classes={{
+                checked: classes.checked,
+                bar: classes.bar,
+              }}
+              checked={values.educator}
+              onChange={handleCheck}
+            />
+          )}
+          label={values.educator ? 'Yes' : 'No'}
         />
         <br />
         {' '}
