@@ -8,6 +8,9 @@ import EditProfile from './user/EditProfile';
 import Profile from './user/Profile';
 import PrivateRoute from './auth/PrivateRoute';
 import Menu from './core/Menu';
+import MyCourses from './course/myCourses';
+import NewCourse from './course/newCourse';
+import Course from './course/course';
 
 function MainRouter() {
   return (
@@ -23,6 +26,19 @@ function MainRouter() {
           component={EditProfile}
         />
         <Route path="/user/:userId" component={Profile} />
+        <PrivateRoute
+          path="/teach/courses"
+          component={MyCourses}
+        />
+
+        <PrivateRoute
+          path="/teach/course/new"
+          component={NewCourse}
+        />
+        <PrivateRoute
+          path="/teach/course/:courseId"
+          component={Course}
+        />
       </Switch>
     </div>
   );

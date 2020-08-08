@@ -16,6 +16,9 @@ const create = async (req, res) => {
   }
 };
 
+/**
+ * Load user and append to req.
+ */
 const userByID = async (req, res, next, id) => {
   try {
     const user = await User.findById(id);
@@ -82,6 +85,16 @@ const remove = async (req, res) => {
   }
 };
 
+const isEducator = (req, res, next) => {
+  const isEducator = req.profile && req.profile.educator;
+  if (!isEducator) {
+    return res.status('403').json({
+      error: 'User is not an educator',
+    });
+  }
+  next();
+};
+
 export default {
   create,
   userByID,
@@ -89,4 +102,5 @@ export default {
   list,
   remove,
   update,
+  isEducator,
 };

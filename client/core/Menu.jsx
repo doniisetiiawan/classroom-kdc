@@ -6,6 +6,7 @@ import { Link, withRouter } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import { Home as HomeIcon } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
+import Library from '@material-ui/icons/LocalLibrary';
 import auth from '../auth/auth-helper';
 
 const isActive = (history, path) => {
@@ -79,13 +80,12 @@ function Menu({ history }) {
                         '/teach/',
                       )}
                     >
-                      {/* <Library /> */}
+                      <Library />
                       {' '}
 Teach
                     </Button>
                   </Link>
                 )}
-
                 <Link
                   to={`/user/${
                     auth.isAuthenticated().user._id
