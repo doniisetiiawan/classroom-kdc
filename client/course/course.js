@@ -24,6 +24,7 @@ import auth from '../auth/auth-helper';
 import { read, update } from './api-course';
 import NewLesson from './newLesson';
 import DeleteCourse from './deleteCourse';
+import Enroll from '../enrollment/enroll';
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -268,7 +269,7 @@ function Course({ match }) {
 
             {course.published && (
               <div className={classes.enroll}>
-                {/* <Enroll courseId={course._id} /> */}
+                <Enroll courseId={course._id} />
               </div>
             )}
           </div>

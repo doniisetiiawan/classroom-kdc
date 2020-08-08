@@ -16,6 +16,7 @@ import MainRouter from '../client/MainRouter';
 import userRoutes from './routes/user.routes';
 import authRoutes from './routes/auth.routes';
 import courseRoutes from './routes/course.routes';
+import enrollmentRoutes from './routes/enrollment.routes';
 import devBundle from './devBundle';
 import theme from '../client/theme';
 
@@ -39,6 +40,7 @@ app.use(
 app.use('/', userRoutes);
 app.use('/', authRoutes);
 app.use('/', courseRoutes);
+app.use('/', enrollmentRoutes);
 
 app.get('*', (req, res) => {
   const sheets = new ServerStyleSheets();
