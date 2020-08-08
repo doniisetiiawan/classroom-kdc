@@ -22,6 +22,8 @@ import CompletedIcon from '@material-ui/icons/VerifiedUser';
 import CardMedia from '@material-ui/core/CardMedia';
 import auth from '../auth/auth-helper';
 import { read, update } from './api-course';
+import NewLesson from './newLesson';
+import DeleteCourse from './deleteCourse';
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -191,9 +193,7 @@ function Course({ match }) {
                   == course.instructor._id && (
                   <span className={classes.action}>
                     <Link
-                      to={
-                        `/teach/course/edit/${course._id}`
-                      }
+                      to={`/teach/course/edit/${course._id}`}
                     >
                       <IconButton
                         aria-label="Edit"
@@ -213,10 +213,10 @@ function Course({ match }) {
                             ? 'Add atleast 1 lesson to publish'
                             : 'Publish'}
                         </Button>
-                        {/* <DeleteCourse */}
-                        {/*  course={course} */}
-                        {/*  onRemove={removeCourse} */}
-                        {/* /> */}
+                        <DeleteCourse
+                          course={course}
+                          onRemove={removeCourse}
+                        />
                       </>
                     ) : (
                       <Button
@@ -300,10 +300,10 @@ function Course({ match }) {
                 == course.instructor._id
               && !course.published && (
                 <span className={classes.action}>
-                  {/* <NewLesson */}
-                  {/*  courseId={course._id} */}
-                  {/*  addLesson={addLesson} */}
-                  {/* /> */}
+                  <NewLesson
+                    courseId={course._id}
+                    addLesson={addLesson}
+                  />
                 </span>
               )
             }
@@ -316,14 +316,9 @@ function Course({ match }) {
                     <ListItemAvatar>
                       <Avatar>{index + 1}</Avatar>
                     </ListItemAvatar>
-                    <ListItemText
-                      primary={lesson.title}
-                    />
+                    <ListItemText primary={lesson.title} />
                   </ListItem>
-                  <Divider
-                    variant="inset"
-                    component="li"
-                  />
+                  <Divider variant="inset" component="li" />
                 </span>
               ))}
           </List>
