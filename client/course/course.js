@@ -25,6 +25,7 @@ import { read, update } from './api-course';
 import NewLesson from './newLesson';
 import DeleteCourse from './deleteCourse';
 import Enroll from '../enrollment/enroll';
+import { enrollmentStats } from '../enrollment/api-enrollment';
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -113,6 +114,26 @@ function Course({ match }) {
         }
       },
     );
+    return function cleanup() {
+      abortController.abort();
+    };
+  }, [match.params.courseId]);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    const { signal } = abortController;
+
+    enrollmentStats(
+      { courseId: match.params.courseId },
+      { t: jwt.token },
+      signal,
+    ).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setStats(data);
+      }
+    });
     return function cleanup() {
       abortController.abort();
     };
